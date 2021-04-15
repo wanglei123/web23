@@ -1,0 +1,36 @@
+<div id="app"></div>
+
+<script>
+// 定义数据响应式，实际上用的闭包来实现，
+function defineReactive(obj, key, val){
+
+Object.defineProperty(obj, key, {
+  get(){
+    console.log('get', key);
+    return val
+  },
+  set(newVal){
+    if (val !== newVal){
+      console.log('set', key);
+      val = newVal
+      update()
+    }
+  }
+})
+
+}
+var obj = {}
+defineReactive(obj, 'foo', '')
+obj.foo = new Date().toLocaleTimeString();
+
+setInterval(() => {
+  obj.foo = new Date().toLocaleTimeString();
+}, 1000)
+
+
+function update(){
+  const app = document.querySelector('#app');
+  app.innerHTML = obj.foo;
+}
+
+</script>
